@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+    <title>Gününü Planla</title>
+</head>
+
+<body>
+
+    <div id="app">
+        {{butunFonksiyonlar()}}
+        <section class="hero is-link">
+            <div class="hero-body container has-text-centered">
+                <h1 class="title is-1">
+                    Gününü Planla
+                </h1>
+                <p class="subtitle">
+                    Günlerini Planla!
+                </p>
+            </div>
+        </section>
+
+        <section>
+
+            <div class="columns">
+                <div class="column">
+                    <div class="hero-body orta-cizgi">
+                        <h2 class="title is-2">
+                            Yeni Görev Ekle
+                        </h2>
+
+                        <div class="columns" style="margin-bottom: 0px;">
+                            <div class="column">
+                                <div class="field">
+                                    <label class="label" for="">Kaç Tane Görev Eklemek İstersiniz?</label>
+
+                                    <!-- Uyarı Mesajları Başlangıç -->
+
+                                    <div v-if="inputHatasiDurumu"
+                                        class="notification bildirim-padding is-danger is-light animate__animated animate__shakeX inputHatasiDanger">
+                                        <button @click="uyariKapat" class="delete"></button>
+                                        Lütfen 1 ile 25 arasında bir değer giriniz.
+                                    </div>
+
+                                    <!-- Uyarı Mesajları Bitiş -->
+                                    <input style="width: 70px;" class="input" type="number" placeholder="ör:5"
+                                        v-model="kacTaneEklesin">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                            <div class="mb-5"><button @click="inputEkle" class="button is-primary">Ekle</button>
+                                <button v-if="sayiKacTaneEklesin != 0" @click="inputlariSil"
+                                    class="button is-danger">Kutucukları
+                                    Sil</button>
+                            </div>
+                        </div>
+
+                        <hr v-if="sayiKacTaneEklesin != 0">
+
+                        <div v-if="sayiKacTaneEklesin != 0">
+                            <p class="title is-3 mt-5">Görevlerinizi Yazın</p>
+                            <div class="field">
+                                <label class="label">Görevleri Hangi Tarihe Eklemek İstiyorsunuz?</label>
+                                <div class="control">
+                                    <input style="width: 200px;" class="input mb-2" type="date" v-model="secilenTarih">
+                                    <span @click="favoriModalOpen" class="icon favori-span">
+                                        <i class="fa-solid fa-bookmark fas fa-lg ikon-engel"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Favori Modal -->
+                        <div class="modal" :class="{'is-active':favoriModalDurumu}">
+                            <div class="modal-background"></div>
+                            <div class="modal-card animate__animated animate__zoomIn">
+                                <header class="modal-card-head">
+                                    <p class="modal-card-title">Favori Görevleriniz</p>
+                                    <button @click="modalKapat" class="delete" aria-label="close"></button>
+                                </header>
+                                <section class="modal-card-body">
+                                    <p v-if="favoriGorevlerArray.length == 0" class="title is-4">Hiçbir görevinizi
+                                        favorilere eklemediniz!</p>
+
+                                    <transition-group name="list" tag="ul">
+                                        <li v-for="(favori,index) in favoriGorevlerArray.length"
+                                            :key="favoriGorevlerArray[index]" style="margin-bottom: 10px;">
+                                            <article class="message is-info">
+                                                <div class="message-header" style="border-radius: 4px;">
+                                                    <p><strong>{{index + 1 }}.
+                                                        </strong><span>{{favoriGorevlerArray[index]}}</span></p>
+                                                    <span style="display: none;">{{index}}</span>
+                                                    <div>
+                                                        <button @click="favoriKopyala"
+                                                            class="button is-primary favori-btn"><i
+                                                                class="fa-solid fa-copy ikon-engel"></i></button>
+                                                        <button @click="favoriSil"
+                                                            class="button is-danger favori-btn"><i
+                                                                class="fa-solid fa-trash ikon-engel"></i></button>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </li>
+                                    </transition-group>
+
+                                </section>
+                                <footer class="modal-card-foot">
+                                    <button @click="modalKapat" class="button is-success">Tamam</button>
+                                </footer>
+                            </div>
+                        </div>
+                        <!-- Favori Modal Bitiş -->
+
+                        <div class="field" v-for="(sayi,index) in sayiKacTaneEklesin" :key="sayi">
+                            <div class="control has-icons-left has-icons-right animate__animated animate__fadeInLeft">
+                                <span class="inputDiv" style="display: none;">{{sayi}}</span>
+                                <input style="padding-right:5.5rem" class="input gorev" type="text"
+                                    placeholder="görevinizi yazınız...">
+                                <span class="icon is-small is-left">
+                                    {{sayi}}.
+                                </span>
+                                <span v-if="kopyalananGorev" @click="favoriYapistir"
+                                    style="margin-right: 40px;border-right: 1px solid; border-left: 1px solid;"
+                                    @click="favorilereKaydet" class="icon is-small is-right input-span pointer-oto">
+                                    <i class="fa-solid fa-paste ikon-engel"></i>
+                                </span>
+                                <span @click="favorilereKaydet" class="icon is-small is-right input-span pointer-oto">
+                                    <i class="fa-solid fa-bookmark ikon-engel"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Uyarı Mesajları Başlangıç -->
+                        <div v-if="gorevlerKaydetDurumu">
+                            <div
+                                class="notification bildirim-padding is-success is-light animate__animated animate__flipInX gorevlerKaydetSucces">
+                                <button @click="uyariKapat" class="delete"></button>
+                                Görevler Kaydedildi.
+                            </div>
+                        </div>
+
+                        <div v-if="gorevlerKaydedilmediDurumu">
+                            <div
+                                class="notification bildirim-padding is-warning is-light animate__animated animate__pulse gorevlerKaydedilmediWarning">
+                                <button @click="uyariKapat" class="delete"></button>
+                                Hiçbir görev kaydedilmedi! Lütfen en az bir görev yazınız.
+                            </div>
+                        </div>
+                        <!-- Uyarı Mesajları Bitiş -->
+                        <button v-if="sayiKacTaneEklesin != 0" @click="gorevleriKaydet"
+                            class="button is-info mb-5">Görevleri
+                            Kaydet</button>
+
+
+
+                    </div>
+                </div>
+
+                <!-- Görevler -->
+                <div class="column">
+                    <div class="hero-body gorevler-hero">
+                        <h2 class="title is-2">Görevleri Görüntele</h2>
+                        <div class="field">
+                            <label class="label">Görevleri Görmek İçin Bir Tarih Seçin?</label>
+                            <div class="control">
+                                <input style="width: 200px;" class="input" type="date" v-model="gorevleriGetirenTarih">
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div>
+                                <button @click="istatistiklerModalAc" class="button is-info">İstatistikler</button>
+                                <button @click="gorevleriGetir" class="button is-primary">Görevlere Bak</button>
+                            </div>
+                        </div>
+                        <hr>
+                        <h3 class="title is-3 mb-3">Görevler</h3>
+                        <p class="title is-5" v-if="gorevlerArray.length == 0 && gorevleriGetirenTarih != '' ">
+                            <i class="fa-solid fa-circle-exclamation has-text-primary"></i> Seçtiğiniz tarihe ait hiçbir
+                            görev oluşturulmamış.
+                        </p>
+                        <p v-if="gorevlerArray.length == 0 && gorevleriGetirenTarih != '' "><i
+                                class="fa-solid fa-circle-info has-text-info"></i> "Yeni Görev Ekle" bölümünden
+                            görev oluşturabilirsiniz.</p>
+                        <p class="title is-5" v-if="gorevleriGetirenTarih == ''"><i
+                                class="fa-solid fa-circle-exclamation has-text-primary"></i> Lütfen Bir Tarih Seçin.</p>
+
+                        <div>
+                            <transition-group name="gorevSil" tag="ul">
+                                <li v-for="(i,index) in gorevlerArray.length" :key="gorevlerArray[index].gorevAdi">
+                                    <article class="message mb-3 animate__animated animate__fadeInRight"
+                                        :class="{'is-info' : !gorevlerArray[index].yapildiMi}">
+                                        <div class="message-header">
+                                            <p>{{index+1}}. Görev</p>
+                                            <div>
+                                                <span style="display: none;">{{index+1}}</span>
+                                                <button @click="gorevDuzenle" class="btn-gorev"><i
+                                                        class="fa-solid fa-pen ikon-engel"></i>
+                                                    Düzenle</button>
+                                                <button @click="gorevYapildi" class="btn-gorev"><i
+                                                        class="fa-solid fa-check ikon-engel"></i> Yapıldı</button>
+                                                <button @click="gorevlerdekiFavorileriKaydet" class="btn-gorev"><i
+                                                        class="fa-solid fa-bookmark ikon-engel"></i>
+                                                </button>
+                                                <button @click="gorevSil" class="btn-gorev btn-sil"><i
+                                                        class="fa-solid fa-trash-can ikon-engel"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="message-body blackFont"
+                                            :class="{ustunuCiz : gorevlerArray[index].yapildiMi}">
+                                            {{gorevlerArray[index].gorevAdi}}
+                                        </div>
+                                    </article>
+                                </li>
+                            </transition-group>
+                        </div>
+                        <!-- Görevler aktarma uyarı mesajı -->
+                        <div v-if="gorevlerAktarmaDurumu">
+                            <div
+                                class="notification bildirim-padding is-success is-light animate__animated animate__flipInX gorevlerKaydetSucces">
+                                <button @click="uyariKapat" class="delete"></button>
+                                Yapılmayan Görevler Bir Sonraki Güne Aktarıldı.
+                            </div>
+                        </div>
+
+                        <div v-if="eksikGorevlerAktarmaDurumu">
+                            <div
+                                class="notification bildirim-padding is-link is-light animate__animated animate__flipInX gorevlerKaydetSucces">
+                                <button @click="uyariKapat" class="delete"></button>
+                                Sadece Bir Sonraki Günde Kayıtlı Olmayan Görevler Aktarıldı.
+                            </div>
+                        </div>
+
+                        <div v-if="benzerGorevlerDurumu">
+                            <div
+                                class="notification bildirim-padding is-warning is-light animate__animated animate__pulse gorevlerKaydedilmediWarning">
+                                <button @click="uyariKapat" class="delete"></button>
+                                Yapılmayan Görevleri Daha Önce Aktarmışsınız. Lütfen Bir Sonraki Güne Ait Yapılan
+                                Görevler Dahil Bütün Görevleri Kontrol Ediniz.
+                            </div>
+                        </div>
+
+                        <!-- Görevler aktarma uyarı mesajı -->
+                        <button v-if="gorevlerArray.length == 0 ? false:true" @click="gorevleriAktar"
+                            class="button is-primary">Yapılmayan Görevleri Sonraki Güne Aktar</button>
+                        <div class="modal" :class="{'is-active':modalDurumu}">
+                            <div class="modal-background "></div>
+                            <div class="modal-card animate__animated animate__zoomIn">
+                                <header class="modal-card-head">
+                                    <p class="modal-card-title">Seçilen Görevi Düzenle</p>
+                                    <button @click="modalKapat" class="delete" aria-label="close"></button>
+                                </header>
+                                <section class="modal-card-body">
+                                    <p class="mb-1"><strong>Şu Anki Görev: </strong>{{duzenlenenGorev.gorevAdi}}</p>
+
+                                    <div class="field">
+                                        <label class="label">Yeni Görevi Yazın:</label>
+                                        <div class="control has-icons-left has-icons-right">
+                                            <input class="input" type="text" placeholder="Yeni bir görev yazın..."
+                                                v-model="yeniGorevAdi">
+                                            <span class="icon is-small is-left">
+                                                <i class="fa-solid fa-pen"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </section>
+                                <footer class="modal-card-foot">
+                                    <button @click="duzenleKaydet" class="button is-success">Kaydet</button>
+                                    <button @click="modalKapat" class="button">Vazgeç</button>
+                                </footer>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <!-- İstatistikler Modal Başlangıç -->
+                <div class="modal" :class="{'is-active':istatistiklerModalDurumu}">
+                    <div class="modal-background"></div>
+                    <div class="modal-card animate__animated animate__zoomIn">
+                        <header class="modal-card-head">
+                            <p class="modal-card-title">İstatistikler -> {{istatistikTarihi}}</p>
+                            <button @click="modalKapat" class="delete" aria-label="close"></button>
+                        </header>
+                        <section class="modal-card-body">
+                            <p v-if="istKayitligorevDurumu" class="title is-5">Bu tarihe ait kayıtlı bir görev yok.</p>
+                            <div v-if="gorevlerArray.length == 0 ? false : true">
+                                <p><strong>Görev Sayısı: </strong>{{gorevlerArray.length}}</p>
+                                <p><strong>Yapılan Görev Sayısı: </strong>{{vueYapilanGorevSayisi}}</p>
+                                <p><strong>Yapılmayan Görev Sayısı: </strong>{{vueYapilmayanGorevSayisi}}</p>
+                                <p><strong>Başarı Oranı: </strong>%{{basariOrani}}</p>
+                                <p
+                                    :class="{'has-text-danger':basariDegisimiRenkDurumu, 'has-text-success':!basariDegisimiRenkDurumu}">
+                                    <strong
+                                        :class="{'has-text-danger':basariDegisimiRenkDurumu, 'has-text-success':!basariDegisimiRenkDurumu}">Bir
+                                        Önceki Güne Göre Değişim: </strong>{{pozOrNeg}}%{{basariDegisimi}}
+                                </p>
+                            </div>
+                        </section>
+                        <footer class="modal-card-foot">
+                            <button @click="modalKapat" class="button is-success">Tamam</button>
+                        </footer>
+                    </div>
+                </div>
+                <!-- İstatistikler Modal Bitiş -->
+            </div>
+
+        </section>
+        <section class="hero">
+            <div class="hero-body has-text-centered">
+                <h3 class="title is-3">Görevlere Genel Bakış</h3>
+                <div class="tabs is-centered is-toggle is-fullwidth" style="margin-bottom: 11px;">
+                    <ul>
+                        <li @click="genelBakisDivi" class="genel-bakis-aylar" id="iki-ay-once">
+                            <a>
+                                <span>{{ikiAyOnceBelirle()}}</span>
+                            </a>
+                        </li>
+                        <li @click="genelBakisDivi" class="genel-bakis-aylar" id="bir-ay-once">
+                            <a>
+                                <span>{{birAyOnceBelirle()}}</span>
+                            </a>
+                        </li>
+                        <li @click="genelBakisDivi" class="genel-bakis-aylar is-active bold-weight" id="bu-ay">
+                            <a>
+                                <span>Bu Ay - {{buAyBelirle()}}</span>
+                            </a>
+                        </li>
+                        <li @click="genelBakisDivi" class="genel-bakis-aylar" id="bir-ay-sonra">
+                            <a>
+                                <span>{{birAySonraBelirle()}}</span>
+                            </a>
+                        </li>
+                        <li @click="genelBakisDivi" class="genel-bakis-aylar" id="iki-ay-sonra">
+                            <a>
+                                <span>{{ikiAySonraBelirle()}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="is-centered" style="display: flex; justify-content: center;">
+                    <div class="columns genel-bakis-divleri" style="display: flex;">
+                        <div class="column genel-bakis-divi" id="iki-ay-once-div">
+                            <h5 class="title is-5">{{ikiAyOnceBelirle()}} ayına ait bütün göreveler:</h5>
+
+                            <div class="card" v-for="gorev in vueikiayOnceGorevler">
+                                <div v-if="" class="card-content genel-bakis-gorev-divi"
+                                    :class="{'genel-bakis-gorev-divi-yapildi':gorev.yapildiMi,'genel-bakis-gorev-divi-gec-kalindi':gorev.gecKalinma}">
+                                    <div class="content">
+                                        <strong>Görev: </strong> {{gorev.gorevAdi}} <br>
+                                        <strong>Yapıldı mı?:</strong> {{gorev.yapildiMi == true ?
+                                        'Yapıldı':'Yapılmadı'}} <br>
+                                        <strong>Tarih: </strong> {{gorev.tarih.split('-')[2]}} {{ikiAyOnceBelirle()}}
+                                        {{gorev.tarih.split('-')[0]}} {{haftaninGununuBelirleme(gorev.tarih)}} Günü <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column genel-bakis-divi" id="bir-ay-once-div">
+                            <h5 class="title is-5">{{birAyOnceBelirle()}} ayına ait bütün göreveler:</h5>
+
+                            <div class="card" v-for="gorev in vueGecenayGorevler">
+                                <div v-if="" class="card-content genel-bakis-gorev-divi"
+                                    :class="{'genel-bakis-gorev-divi-yapildi':gorev.yapildiMi,'genel-bakis-gorev-divi-gec-kalindi':gorev.gecKalinma}">
+                                    <div class="content">
+                                        <strong>Görev: </strong> {{gorev.gorevAdi}} <br>
+                                        <strong>Yapıldı mı?:</strong> {{gorev.yapildiMi == true ?
+                                        'Yapıldı':'Yapılmadı'}} <br>
+                                        <strong>Tarih: </strong> {{gorev.tarih.split('-')[2]}} {{birAyOnceBelirle()}}
+                                        {{gorev.tarih.split('-')[0]}} {{haftaninGununuBelirleme(gorev.tarih)}} Günü <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column genel-bakis-divi" id="bu-ay-div" style="display: block;">
+                            <h5 class="title is-5">{{buAyBelirle()}} ayına ait bütün göreveler:</h5>
+                            <div class="card" v-for="gorev in vueOayGorevler">
+                                <div v-if="" class="card-content genel-bakis-gorev-divi"
+                                    :class="{'genel-bakis-gorev-divi-yapildi':gorev.yapildiMi,'genel-bakis-gorev-divi-gec-kalindi':gorev.gecKalinma}">
+                                    <div class="content">
+                                        <strong>Görev: </strong> {{gorev.gorevAdi}} <br>
+                                        <strong>Yapıldı mı?:</strong> {{gorev.yapildiMi == true ?
+                                        'Yapıldı':'Yapılmadı'}} <br>
+                                        <strong>Tarih: </strong> {{gorev.tarih.split('-')[2]}} {{buAyBelirle()}}
+                                        {{gorev.tarih.split('-')[0]}} {{haftaninGununuBelirleme(gorev.tarih)}}
+                                        Günü
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column genel-bakis-divi" id="bir-ay-sonra-div">
+                            <h5 class="title is-5">{{birAySonraBelirle()}} ayına ait bütün göreveler:</h5>
+
+                            <div class="card" v-for="gorev in vueSonrakiayGorevler">
+                                <div v-if="" class="card-content genel-bakis-gorev-divi"
+                                    :class="{'genel-bakis-gorev-divi-yapildi':gorev.yapildiMi}">
+                                    <div class="content">
+                                        <strong>Görev: </strong> {{gorev.gorevAdi}} <br>
+                                        <strong>Yapıldı mı?:</strong> {{gorev.yapildiMi == true ?
+                                        'Yapıldı':'Yapılmadı'}} <br>
+                                        <strong>Tarih: </strong> {{gorev.tarih.split('-')[2]}}
+                                        {{birAySonraBelirle()}}
+                                        {{gorev.tarih.split('-')[0]}} {{haftaninGununuBelirleme(gorev.tarih)}} Günü
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column genel-bakis-divi" id="iki-ay-sonra-div">
+                            <h5 class="title is-5">{{ikiAySonraBelirle()}} ayına ait bütün göreveler:</h5>
+
+                            <div class="card" v-for="gorev in vueikiaySonraGorevler">
+                                <div v-if="" class="card-content genel-bakis-gorev-divi"
+                                    :class="{'genel-bakis-gorev-divi-yapildi':gorev.yapildiMi}">
+                                    <div class="content">
+                                        <strong>Görev: </strong> {{gorev.gorevAdi}} <br>
+                                        <strong>Yapıldı mı?:</strong> {{gorev.yapildiMi == true ?
+                                        'Yapıldı':'Yapılmadı'}} <br>
+                                        <strong>Tarih: </strong> {{gorev.tarih.split('-')[2]}}
+                                        {{ikiAySonraBelirle()}}
+                                        {{gorev.tarih.split('-')[0]}} {{haftaninGununuBelirleme(gorev.tarih)}} Günü
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>Gününü Planla Uygulaması</strong> by <a
+                        href="https://www.instagram.com/serhatkanat99/">Serhat Kanat</a>. <br>
+                    &copy; Bütün Telif Hakları Saklıdır. All Rights Reserved.
+                </p>
+                <nav class="breadcrumb is-centered has-bullet-separator " aria-label="breadcrumbs">
+                    <ul>
+                        <li @click="kayitSil" style="margin-top: .25em;"><a href="#">Kayıt Sil</a></li>
+                        <li><a href="#">Öneride Bulun</a></li>
+                        <li><a href="#">İletişime Geç</a></li>
+                        <li><a href="#">Geliştiriciler İçin Bilgiler</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

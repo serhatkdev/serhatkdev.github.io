@@ -1,0 +1,185 @@
+.btn-gorev {
+    background-color: transparent;
+    border-radius: 28px;
+    border: 1px solid #fff;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 6px 20px;
+    margin: 1px 0px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #2f6627;
+}
+
+.btn-gorev:hover {
+    background-color: #00000015;
+    border: 1px solid #fff;
+}
+
+.btn-gorev:active {
+    position: relative;
+    top: 1px;
+}
+
+.blackFont {
+    color: black !important;
+}
+
+.ustunuCiz {
+    text-decoration: line-through;
+}
+
+.orta-cizgi {
+    padding-top: 15px;
+    padding-bottom: 0px;
+    margin-top: 7px;
+    border-right: 2px solid #bdbdbd;
+    border-bottom: 0px solid #bdbdbd;
+}
+
+.gorevler-hero {
+    padding-top: 15px;
+    margin-top: 7px;
+    margin-left: unset;
+}
+
+.btn-sil {
+    background-color: #F14668;
+}
+
+.btn-sil:hover {
+    background-color: #cf3151;
+}
+
+.ikon-engel {
+    pointer-events: none;
+}
+
+.pointer-oto {
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+
+.favori-span {
+    height: 38px;
+    width: 38px;
+    background-color: #3488CE;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.bildirim-padding {
+    padding: 0.30rem 2.5rem 0.3rem 1rem;
+    margin-bottom: 12px !important;
+}
+
+.input-span:active {
+    color: white !important;
+    background-color: #dbdbdb;
+}
+
+.favori-btn{
+    padding: 10px;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.gorevSil-enter-active,
+.gorevSil-leave-active {
+  transition: all 1s ease;
+}
+.gorevSil-enter-from,
+.gorevSil-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.genel-bakis-divleri{
+    width: 100%;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+}
+
+.genel-bakis-divi{
+    background-color: hsl(204, 86%, 53%);
+    color: white;
+    text-align: left !important;
+    display: none;
+}
+
+.genel-bakis-divi h5{
+    color: white;
+    margin-bottom: 10px !important;
+}
+
+.genel-bakis-aylar{
+    cursor: pointer;
+}
+
+
+.genel-bakis-aylar a{
+    pointer-events: none;
+}
+
+.tabs.is-toggle li.is-active a {
+    background-color: hsl(204, 86%, 53%);
+    border-color: hsl(204, 86%, 53%);
+}
+
+.bold-weight{
+    font-weight: 700;
+}
+
+.genel-bakis-gorev-divi{
+    padding: .5rem !important;
+    margin-bottom: 5px;
+}
+
+.genel-bakis-gorev-divi-yapildi{
+    background-color: #e0e0e0;
+}
+
+.genel-bakis-gorev-divi-gec-kalindi{
+    background-color: hsl(347, 100%, 79%);
+}
+
+
+@media only screen and (max-width: 1030px) {
+    .btn-gorev {
+        padding: 6px 10px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .btn-gorev {
+        padding: 6px 6px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .orta-cizgi {
+        padding-top: 15px;
+        padding-bottom: 0px;
+        margin-top: 7px;
+        margin-right: 7px;
+        margin-left: 15px;
+        border-bottom: 2px solid #bdbdbd;
+        border-right: 0px solid #bdbdbd;
+    }
+
+    .gorevler-hero {
+        padding-top: 15px;
+        margin-top: -20px;
+        margin-left: 15px
+    }
+}

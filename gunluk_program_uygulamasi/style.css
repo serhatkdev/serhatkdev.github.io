@@ -1,0 +1,379 @@
+body {
+    background-color: #f5e4ce;
+}
+
+.container {
+    display: flex;
+    justify-content: space-evenly;
+    /* align-items: center;
+    flex-direction: column; */
+    padding-bottom: 50px;
+}
+
+.duzenle-div {
+    width: max-content;
+}
+
+
+#tarih-duzenle-btn {
+    margin-top: 10px;
+    margin-left: 26px;
+}
+
+.tarih-sec-div {
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+
+.gorevler-div {
+    margin-top: 0;
+}
+
+.gorev-div {
+    width: 350px;
+    height: 105px;
+    border: 1px solid #696969;
+    margin-bottom: 5px;
+    border-radius: 10px 10px 10px 10px;
+    background-color: #74EBD5;
+    overflow: auto
+}
+
+.gorev-div::-webkit-scrollbar {
+    width: 10px;
+}
+
+.gorev-div::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+.gorev-div::-webkit-scrollbar-thumb {
+    background: rgb(1, 154, 210);
+    border-radius: 10px;
+}
+
+
+
+.btn-tamam {
+    box-shadow: 0px 1px 0px 0px #f0f7fa;
+    background-color: #007bff;
+    border-radius: 10px;
+    border: 0px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 8px;
+    text-decoration: none;
+    text-shadow: 0px -1px 0px #5b6178;
+    margin: 3px;
+}
+
+.btn-tamam {
+    display: inline;
+}
+
+.p-yapilacak {
+    display: inline;
+    position: relative;
+    left: 3px;
+}
+
+.yapilacak-div input {
+    width: 330px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+.yapilacak-div input:not(#yapilacak-metin10, #yapilacak-metin11, #yapilacak-metin12, #yapilacak-metin13, #yapilacak-metin14, #yapilacak-metin15, #yapilacak-metin16, #yapilacak-metin17, #yapilacak-metin18, #yapilacak-metin19, #yapilacak-metin20) {
+    margin-left: 9px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.yapilacaklar-divi {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#tarih-duzenle,
+#tarih-sec,
+#kac-tane-gorev-olsun {
+    border-radius: 6px;
+    padding: 3px;
+    border-width: 1px;
+    background-color: white;
+}
+
+#tarih-duzenle-btn,
+#tarih-sec-btn {
+    font-size: 15px;
+    font-family: Arial;
+    width: 97px;
+    height: 32px;
+    border-width: 1px;
+    color: #ffffff;
+    border-color: #057fd0;
+    font-weight: bold;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    box-shadow: 0px 1px 0px 0px #f0f7fa;
+    text-shadow: 0px -1px 0px #5b6178;
+    background: linear-gradient(#33bdef, #019ad2);
+}
+
+#tarih-duzenle-btn:hover,
+#tarih-sec-btn:hover {
+    background: linear-gradient(#019ad2, #33bdef);
+}
+
+#en-fazla-20-gorev-p {
+    margin-top: 5px;
+    margin-bottom: 1px;
+}
+
+.favoriler-background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+#favoriler-div {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    align-self: center;
+    width: 350px;
+    height: 500px;
+    background-color: #14a2f5;
+    border-radius: 15px;
+    padding: 5px;
+    color: white;
+    position: fixed;
+    top: 70px;
+    z-index: 10000;
+}
+
+.favori-p {
+    display: inline;
+    margin: 5px;
+    width: 280px;
+    border: 1px solid #EFDAD7;
+    background-color: #F7ECDE;
+    border-radius: 7px;
+    padding: 5px;
+    color: black;
+    height: 36px;
+    overflow: auto;
+}
+
+.favori-div i {
+    font-size: 20px;
+    align-self: center;
+    margin-right: 5px;
+}
+
+.favori-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fa-window-close {
+    color: #B33030;
+    cursor: pointer;
+}
+
+h5 {
+    display: flex;
+    align-self: center;
+}
+
+.fa-copy {
+    cursor: pointer;
+    display: inline;
+}
+
+.favoriler-close {
+    position: relative;
+    top: -30px;
+    left: 315px;
+    cursor: pointer;
+    margin-bottom: -25px;
+}
+
+.fa-bookmark {
+    font-size: 25px;
+    position: relative;
+    top: 4px;
+    color: #019ad2;
+    cursor: pointer;
+}
+
+.copy-p {
+    display: inline;
+    font-size: 20px;
+    margin-left: 5px;
+    cursor: pointer;
+    color: #019ad2;
+}
+
+.istatistikler-divi {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+#istatistik-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 305px;
+    height: 35px;
+    background-color: #BF8B67;
+    padding: 5px 8px 5px 8px;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+
+#istatistikler {
+    width: 305px;
+    height: 200px;
+    background-color: #DACC96;
+    color: black;
+    border-radius: 8px;
+    border: #333 1px solid;
+    padding: 5px;
+    overflow: hidden;
+}
+
+#goster-gizle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.duzenle-p {
+    float: right;
+    position: relative;
+    right: 10px;
+    top: 5px;
+    font-style: italic;
+    font-weight: 400;
+    cursor: pointer;
+    background-color: #084594;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+    border: 0;
+}
+
+.duzenle-p:hover {
+    background-color: #063572
+}
+
+.kopyalama-efekti{
+    margin-top: 5px;
+}
+
+
+.acilma-animasyonu {
+    animation-name: acilma;
+    animation-duration: .7s;
+    animation-timing-function: ease-in;
+}
+
+@keyframes acilma {
+    0% {
+        width: 305px;
+        height: 0px;
+    }
+
+    100% {
+        width: 305px;
+        height: 200px;
+    }
+}
+
+.kapanma-animasyonu {
+    animation-name: kapanma;
+    animation-duration: .7s;
+    animation-timing-function: ease-in;
+}
+
+@keyframes kapanma {
+    0% {
+        width: 305px;
+        height: 200px;
+    }
+
+    100% {
+        width: 305px;
+        height: 0px;
+    }
+}
+
+
+.hidden {
+    display: none;
+}
+
+@media screen and (max-width: 970px) {
+    .container {
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .gorevler-div {
+        margin-top: 15px;
+    }
+
+    #favoriler-div {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        align-self: center;
+        width: 350px;
+        height: 500px;
+        background-color: #14a2f5;
+        border-radius: 15px;
+        padding: 5px;
+        color: white;
+        position: fixed;
+        top: 100px;
+        z-index: 10000;
+    }
+}
+
+@media screen and (max-width: 365px) {
+    .yapilacaklar-divi {
+        width: 320px;
+    }
+
+    .container-item {
+        width: 315px;
+    }
+
+    .yapilacak-div input {
+        width: 288px;
+    }
+}
